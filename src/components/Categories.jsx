@@ -4,7 +4,7 @@ import Styles from '@/styles/Categories.module.scss';
 function Categories() {
   return (
     <div className={Styles.categories}>
-      Categories
+      <button type="button">Check status</button>
     </div>
   );
 }
