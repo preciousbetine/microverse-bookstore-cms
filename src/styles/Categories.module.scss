@@ -1,0 +1,19 @@
+.categories {
+  max-width: 1000px;
+  margin: auto;
+
+  button {
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    border: none;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s all;
+
+    &:hover {
+      background-color: #fff;
+      color: var(--primary-color);
+    }
+  }
+}
