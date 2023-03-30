@@ -32,7 +32,7 @@
 
 # About Project <a name="about-project"></a>
 
-An online bookstore where users can and remove books.
+A book site where users can and remove books.
 
 ## 🛠 Built With <a name="built-with"></a>
 
