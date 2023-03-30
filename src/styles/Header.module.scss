@@ -1,0 +1,42 @@
+header {
+  padding: 30px 50px;
+  background-color: #fff;
+  position: sticky;
+  top: 0;
+
+  h1 {
+    color: var(--primary-color);
+  }
+
+  div {
+    max-width: 1000px;
+    width: 100%;
+    margin: auto;
+    display: flex;
+  }
+
+  div > div:nth-child(1) {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+  }
+
+  div > div:nth-child(2) {
+    height: 40px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    color: var(--primary-color);
+    border: 1px solid var(--secondary-color);
+  }
+}
+
+nav {
+  ul {
+    display: flex;
+    list-style: none;
+    gap: 10px;
+  }
+}

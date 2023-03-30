@@ -1,0 +1,111 @@
+
+.books {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+.book {
+  background-color: #fff;
+  width: 100%;
+  max-width: 1000px;
+  padding: 30px;
+}
+
+.book-description {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+
+  ul {
+    list-style: none;
+    display: flex;
+    color: var(--cool-blue);
+
+    li {
+      border-right: 2px solid var(--secondary-color);
+      padding: 0 10px;
+
+      &:first-child {
+        padding-left: 0;
+      }
+
+      &:last-child {
+        border-right: none;
+      }
+    }
+  }
+}
+
+.category {
+  color: var(--secondary-color);
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.book-title {
+  font-size: 25px;
+  font-weight: bold;
+  font-family: 'Roboto Slab', serif;
+}
+
+.author {
+  font-size: 15px;
+  font-weight: lighter;
+  font-family: 'Roboto Slab', serif;
+  color: var(--cool-blue);
+}
+
+.book-form-container {
+  max-width: 1000px;
+  margin: auto;
+  border-top: 1px solid var(--secondary-color);
+  padding: 50px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  h2 {
+    font-size: 25px;
+    color: var(--secondary-color);
+  }
+
+  form {
+    display: flex;
+    gap: 10px;
+
+    * {
+      padding: 10px;
+    }
+
+    .title-input {
+      width: 50%;
+    }
+
+    .author-input {
+      width: 30%;
+    }
+
+    input {
+      border: 1px solid #dadada;
+      outline: none;
+    }
+
+    input::placeholder {
+      color: var(--secondary-color);
+      letter-spacing: 0.5px;
+    }
+
+    button {
+      width: 20%;
+      background-color: var(--primary-color);
+      border: none;
+      color: #fff;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  }
+}
