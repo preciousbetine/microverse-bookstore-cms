@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Book from '@/components/Book.jsx';
 import NewBookForm from '@/components/NewBookForm';
+import Error from '@/components/Error';
 import Styles from '@/styles/Home.module.scss';
 import { fetchBooks } from '@/redux/books/booksSlice';
 
@@ -25,6 +26,7 @@ const Home = () => {
 
   return (
     <>
+      <Error />
       <div className={Styles.books}>
         {allBooks}
       </div>

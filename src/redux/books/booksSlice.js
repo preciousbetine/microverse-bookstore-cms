@@ -59,6 +59,12 @@ const removeBook = createAsyncThunk(
 const booksSlice = createSlice({
   name: 'books',
   initialState,
+  reducers: {
+    clearBooksError: (state) => ({
+      ...state,
+      error: undefined,
+    }),
+  },
   extraReducers: (builder) => {
     builder
       .addMatcher(
@@ -73,6 +79,7 @@ const booksSlice = createSlice({
         (state, { payload }) => ({
           ...state,
           books: payload,
+          error: undefined,
         }),
       )
       .addMatcher(
@@ -87,4 +94,5 @@ const booksSlice = createSlice({
 });
 
 export { fetchBooks, addBook, removeBook };
+export const { clearBooksError } = booksSlice.actions;
 export default booksSlice.reducer;
