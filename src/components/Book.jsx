@@ -37,8 +37,20 @@ const Book = ({
           </li>
         </ul>
       </div>
-      <div />
-      <div />
+      <div className={Styles['reading-progress']}>
+        <div className={Styles['percent-complete']}>
+          <div className={Styles['progress-display']} />
+          <div>
+            <p className={Styles['percent-value']}>64%</p>
+            <p>Completed</p>
+          </div>
+        </div>
+        <div className={Styles['progress-update']}>
+          <h3>CURRENT CHAPTER</h3>
+          <p>CHAPTER 17</p>
+          <button type="button">UPDATE PROGRESS</button>
+        </div>
+      </div>
     </div>
   );
 };
