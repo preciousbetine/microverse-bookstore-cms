@@ -52,6 +52,8 @@ const AddBookForm = () => {
   const submitForm = (e) => {
     e.preventDefault();
     dispatch(addBook({ title, author }));
+    setTitle('');
+    setAuthor('');
   };
 
   return (
@@ -63,12 +65,14 @@ const AddBookForm = () => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           className={Styles['title-input']}
+          required
         />
         <input
           placeholder="Book author"
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
           className={Styles['author-input']}
+          required
         />
         <button type="submit">ADD BOOK</button>
       </form>
