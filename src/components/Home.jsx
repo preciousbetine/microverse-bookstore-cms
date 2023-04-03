@@ -1,27 +1,48 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addBook } from '@/redux/books/booksSlice';
+import { addBook, removeBook } from '@/redux/books/booksSlice';
 import Styles from '@/styles/Home.module.scss';
 
-const Book = ({ title, author, category }) => (
-  <div className={Styles.book}>
-    <div className={Styles['book-description']}>
-      <div>
-        <div className={Styles.category}>{category}</div>
-        <h2 className={Styles['book-title']}>{title}</h2>
-        <span className={Styles.author}>{author}</span>
+const Book = ({
+  bookId, title, author, category,
+}) => {
+  const dispatch = useDispatch();
+
+  const deleteThisBook = () => {
+    dispatch(removeBook(bookId));
+  };
+
+  return (
+    <div className={Styles.book}>
+      <div className={Styles['book-description']}>
+        <div>
+          <div className={Styles.category}>{category}</div>
+          <h2 className={Styles['book-title']}>{title}</h2>
+          <span className={Styles.author}>{author}</span>
+        </div>
+        <ul>
+          <li>
+            <button type="button">Comments</button>
+          </li>
+          <li>
+            <button
+              type="button"
+              onClick={() => { deleteThisBook(); }}
+            >
+              Remove
+            </button>
+          </li>
+          <li>
+            <button type="button">Edit</button>
+          </li>
+        </ul>
       </div>
-      <ul>
-        <li>Comments</li>
-        <li>Remove</li>
-        <li>Edit</li>
-      </ul>
+      <div />
+      <div />
     </div>
-    <div />
-    <div />
-  </div>
-);
+  );
+};
 
 const AddBookForm = () => {
   const [title, setTitle] = useState('');
@@ -58,8 +79,9 @@ const AddBookForm = () => {
 const Home = () => {
   const { books } = useSelector((store) => store.books);
 
-  const bookElements = books.map((book) => (
+  const allBooks = books.map((book) => (
     <Book
+      bookId={book.item_id}
       key={book.item_id}
       title={book.title}
       author={book.author}
@@ -69,7 +91,7 @@ const Home = () => {
   return (
     <>
       <div className={Styles.books}>
-        {bookElements}
+        {allBooks}
       </div>
       <AddBookForm />
     </>
@@ -77,6 +99,7 @@ const Home = () => {
 };
 
 Book.propTypes = {
+  bookId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
   category: PropTypes.string,
