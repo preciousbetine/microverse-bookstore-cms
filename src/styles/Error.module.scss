@@ -1,0 +1,28 @@
+.error {
+  padding: 20px;
+  color: white;
+  background: rgba(219, 30, 30, 0.51);
+  max-width: 1000px;
+  margin: 40px auto;
+  margin-top: 0;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  button {
+    background: none;
+    color: white;
+    border: none;
+  }
+
+  svg {
+    font-size: 20px;
+    transition: 0.3s all;
+    cursor: pointer;
+
+    &:hover {
+      font-size: 22px;
+    }
+  }
+}

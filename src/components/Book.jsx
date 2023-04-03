@@ -47,11 +47,7 @@ Book.propTypes = {
   bookId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
-  category: PropTypes.string,
-};
-
-Book.defaultProps = {
-  category: 'Fiction',
+  category: PropTypes.string.isRequired,
 };
 
 export default Book;
