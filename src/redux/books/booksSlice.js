@@ -1,42 +1,90 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  createAsyncThunk,
+  isPending,
+  isFulfilled,
+  isRejected,
+} from '@reduxjs/toolkit';
+import { addBookAtAPI, deleteBookAtAPI, getBooksFromAPI } from './booksApi';
 
 const initialState = {
-  books: [
-    {
-      item_id: 'item1',
-      title: 'The Great Gatsby',
-      author: 'John Smith',
-      category: 'Fiction',
-    },
-    {
-      item_id: 'item2',
-      title: 'Anna Karenina',
-      author: 'Leo Tolstoy',
-      category: 'Fiction',
-    },
-    {
-      item_id: 'item3',
-      title: 'The Selfish Gene',
-      author: 'Richard Dawkins',
-      category: 'Nonfiction',
-    },
-  ],
+  defaultCategory: 'Fiction',
+  books: [],
+  loading: false,
+  error: undefined,
 };
+
+const fetchBooks = createAsyncThunk(
+  'books/fetchBooks',
+  async (_, thunkAPI) => {
+    try {
+      const books = await getBooksFromAPI();
+      return books;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.message);
+    }
+  },
+);
+
+const addBook = createAsyncThunk(
+  'books/addBook',
+  async (bookInfo, thunkAPI) => {
+    try {
+      const { books } = thunkAPI.getState().books;
+      const resp = await addBookAtAPI(bookInfo, books);
+      if (resp === 'Created') {
+        const books = await getBooksFromAPI();
+        return books;
+      }
+      return thunkAPI.rejectWithValue('Wrong API response received!');
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.message);
+    }
+  },
+);
+
+const removeBook = createAsyncThunk(
+  'books/removeBook',
+  async (bookId, thunkAPI) => {
+    try {
+      await deleteBookAtAPI(bookId);
+      const books = await getBooksFromAPI();
+      return books;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.message);
+    }
+  },
+);
 
 const booksSlice = createSlice({
   name: 'books',
   initialState,
-  reducers: {
-    addBook: (state, action) => {
-      state.books.push({ item_id: `item${state.books.length + 1}`, ...action.payload });
-    },
-    removeBook: (state, action) => ({
-      books: state.books.filter(
-        (book) => book.item_id !== action.payload,
-      ),
-    }),
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(
+        isPending(addBook, fetchBooks, removeBook),
+        (state) => ({
+          ...state,
+          loading: true,
+        }),
+      )
+      .addMatcher(
+        isFulfilled(addBook, fetchBooks, removeBook),
+        (state, { payload }) => ({
+          ...state,
+          books: payload,
+        }),
+      )
+      .addMatcher(
+        isRejected(addBook, fetchBooks, removeBook),
+        (state, { payload }) => ({
+          ...state,
+          loading: false,
+          error: payload,
+        }),
+      );
   },
 });
 
-export const { addBook, removeBook } = booksSlice.actions;
+export { fetchBooks, addBook, removeBook };
 export default booksSlice.reducer;
