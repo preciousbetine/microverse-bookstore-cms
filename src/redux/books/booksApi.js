@@ -15,6 +15,7 @@ const getNextItemID = (books) => {
 
 export const getBooksFromAPI = async () => {
   const resp = await axios(`${apiBase}/apps/${appId}/books`);
+  // Flatten the received array and sort it
   const books = Object.entries(resp.data)
     .map((entry) => ({
       item_id: entry[0],
