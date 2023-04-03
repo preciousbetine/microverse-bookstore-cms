@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import Styles from '@/styles/Home.module.scss';
 
@@ -52,27 +52,11 @@ const AddBookForm = () => {
 };
 
 const Home = () => {
-  const [books] = useState([
-    {
-      id: uuidv4(),
-      title: 'The Way of Kings',
-      author: 'Brandon Sanderson',
-    },
-    {
-      id: uuidv4(),
-      title: 'The Name of the Wind',
-      author: 'Patrick Rothfuss',
-    },
-    {
-      id: uuidv4(),
-      title: 'The Final Empire',
-      author: 'Brandon Sanderson',
-    },
-  ]);
+  const { books } = useSelector((store) => store.books);
 
   const bookElements = books.map((book) => (
     <Book
-      key={book.id}
+      key={book.item_id}
       title={book.title}
       author={book.author}
     />
