@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { addBook } from '@/redux/books/booksSlice';
 import Styles from '@/styles/Home.module.scss';
 
 const Book = ({ title, author, category }) => (
@@ -25,8 +26,11 @@ const Book = ({ title, author, category }) => (
 const AddBookForm = () => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
+  const dispatch = useDispatch();
 
-  const submitForm = () => {
+  const submitForm = (e) => {
+    e.preventDefault();
+    dispatch(addBook({ title, author }));
   };
 
   return (
