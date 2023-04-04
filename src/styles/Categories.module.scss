@@ -2,18 +2,38 @@
   max-width: 1000px;
   margin: auto;
 
-  button {
-    padding: 10px 20px;
-    background-color: var(--primary-color);
-    border: none;
-    color: #fff;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.2s all;
+  & > ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1000px;
+    gap: 10px;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--dark-color);
 
-    &:hover {
-      background-color: #fff;
-      color: var(--primary-color);
+    li {
+      button {
+        border: none;
+        padding: 6px 12px;
+        font-size: 15px;
+        background: none;
+        border: 2px solid var(--primary-color);
+        color: var(--primary-color);
+        cursor: pointer;
+        transition: 0.4s all;
+
+        &.selected-category,
+        &:hover {
+          color: white;
+          background: var(--primary-color);
+        }
+      }
     }
   }
+
+  & > div {
+    
+  }
 }
+

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addBook } from '@/redux/books/booksSlice';
 import Styles from '@/styles/NewBookForm.module.scss';
 
@@ -7,20 +7,10 @@ const NewBookForm = () => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [category, setCategory] = useState('Fiction');
+  const { categories } = useSelector((store) => store.categories);
   const titleInput = React.createRef();
 
   const dispatch = useDispatch();
-  const categories = [
-    'Fiction',
-    'Non-fiction',
-    'Poetry',
-    'Drama',
-    'Biography',
-    'History',
-    'Business and economice',
-    'Self help',
-    'Philosophy',
-  ];
 
   const submitForm = (e) => {
     e.preventDefault();
