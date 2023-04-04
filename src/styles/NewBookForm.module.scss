@@ -10,7 +10,7 @@
 
   h2 {
     font-size: 25px;
-    color: var(--secondary-color);
+    color: var(--dark-color);
   }
 
   form {
@@ -51,6 +51,25 @@
       &:hover {
         background-color: #fff;
         color: var(--primary-color);
+      }
+    }
+  }
+}
+
+@media (max-width: 650px) {
+  .book-form-container {
+    form {
+      flex-direction: column;
+
+      .title-input,
+      .author-input {
+        width: 100%;
+      }
+
+      button {
+        width: max-content;
+        align-self: flex-end;
+        padding: 10px 25px;
       }
     }
   }

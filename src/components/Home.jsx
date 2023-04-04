@@ -17,6 +17,8 @@ const Home = () => {
       title={book.title}
       author={book.author}
       category={book.category}
+      progress={book.progress}
+      chapter={book.chapter}
     />
   ));
 
@@ -27,9 +29,20 @@ const Home = () => {
   return (
     <>
       <Error />
-      <div className={Styles.books}>
-        {allBooks}
-      </div>
+      {
+        (allBooks.length > 0) && (
+          <div className={Styles.books}>
+            {allBooks}
+          </div>
+        )
+      }
+      {
+        (allBooks.length === 0) && (
+          <div className={Styles['no-book']}>
+            No book available
+          </div>
+        )
+      }
       <NewBookForm />
     </>
   );

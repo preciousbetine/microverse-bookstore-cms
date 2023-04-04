@@ -15,6 +15,15 @@ const getNextItemID = (books) => {
 
 export const getBooksFromAPI = async () => {
   const resp = await axios(`${apiBase}/apps/${appId}/books`);
+
+  // An array of chapters
+  const chapters = [
+    'CHAPTER 7',
+    'CHAPTER 11',
+    'CHAPTER 9',
+    'CHAPTER 18',
+  ];
+
   // Flatten the received array and sort it
   const books = Object.entries(resp.data)
     .map((entry) => ({
@@ -22,6 +31,10 @@ export const getBooksFromAPI = async () => {
       author: entry[1][0].author,
       title: entry[1][0].title,
       category: entry[1][0].category,
+      // Add a random progress value
+      progress: Math.floor(Math.random() * 100),
+      // and a random chapter
+      chapter: chapters[Math.floor(Math.random() * chapters.length)],
     }))
     .sort((a, b) => a.item_id.localeCompare(b.item_id, 'en', { numeric: true }));
 
