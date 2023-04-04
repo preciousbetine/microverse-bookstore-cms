@@ -34,3 +34,10 @@ a {
 a.active {
   color: black;
 }
+
+@media (max-width: 650px) {
+  .app-body {
+    padding: 20px;
+  }
+}
+

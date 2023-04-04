@@ -34,6 +34,35 @@ const Book = ({
     }, speed);
   }, [progress, progressBar]);
 
+  const bookControls = (
+    <>
+      <li>
+        <button
+          type="button"
+          onClick={() => dispatch(showMessage('Feature not implemented yet'))}
+        >
+          Comments
+        </button>
+      </li>
+      <li>
+        <button
+          type="button"
+          onClick={() => { deleteThisBook(); }}
+        >
+          Remove
+        </button>
+      </li>
+      <li>
+        <button
+          type="button"
+          onClick={() => dispatch(showMessage('Feature not implemented yet'))}
+        >
+          Edit
+        </button>
+      </li>
+    </>
+  );
+
   return (
     <div className={Styles.book}>
       <div className={Styles['book-description']}>
@@ -42,31 +71,8 @@ const Book = ({
           <h2 className={Styles['book-title']}>{title}</h2>
           <span className={Styles.author}>{author}</span>
         </div>
-        <ul>
-          <li>
-            <button
-              type="button"
-              onClick={() => dispatch(showMessage('Feature not implemented yet'))}
-            >
-              Comments
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-              onClick={() => { deleteThisBook(); }}
-            >
-              Remove
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-              onClick={() => dispatch(showMessage('Feature not implemented yet'))}
-            >
-              Edit
-            </button>
-          </li>
+        <ul className={Styles['desktop-controls']}>
+          {bookControls}
         </ul>
       </div>
       <div className={Styles['reading-progress']}>
@@ -91,10 +97,13 @@ const Book = ({
             type="button"
             onClick={() => dispatch(showMessage('Feature not implemented yet'))}
           >
-            UPDATE PROGRESS
+            UPDATE&nbsp;PROGRESS
           </button>
         </div>
       </div>
+      <ul className={Styles['mobile-controls']}>
+        {bookControls}
+      </ul>
     </div>
   );
 };
