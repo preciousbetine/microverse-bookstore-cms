@@ -48,3 +48,15 @@ nav {
     gap: 10px;
   }
 }
+
+@media (max-width: 650px) {
+  header {
+    padding: 30px 5%;
+
+    div > div:nth-child(1) {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+}
+
