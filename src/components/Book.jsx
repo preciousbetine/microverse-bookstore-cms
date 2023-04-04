@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { removeBook } from '@/redux/books/booksSlice';
+import { showMessage } from '@/redux/modal/modalSlice';
 import Styles from '@/styles/Book.module.scss';
 
 const Book = ({
@@ -22,7 +23,12 @@ const Book = ({
         </div>
         <ul>
           <li>
-            <button type="button">Comments</button>
+            <button
+              type="button"
+              onClick={() => dispatch(showMessage('Feature not implemented yet'))}
+            >
+              Comments
+            </button>
           </li>
           <li>
             <button
@@ -33,7 +39,12 @@ const Book = ({
             </button>
           </li>
           <li>
-            <button type="button">Edit</button>
+            <button
+              type="button"
+              onClick={() => dispatch(showMessage('Feature not implemented yet'))}
+            >
+              Edit
+            </button>
           </li>
         </ul>
       </div>
@@ -48,7 +59,12 @@ const Book = ({
         <div className={Styles['progress-update']}>
           <h3>CURRENT CHAPTER</h3>
           <p>CHAPTER 17</p>
-          <button type="button">UPDATE PROGRESS</button>
+          <button
+            type="button"
+            onClick={() => dispatch(showMessage('Feature not implemented yet'))}
+          >
+            UPDATE PROGRESS
+          </button>
         </div>
       </div>
     </div>

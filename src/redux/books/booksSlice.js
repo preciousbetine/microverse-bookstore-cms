@@ -79,6 +79,7 @@ const booksSlice = createSlice({
         (state, { payload }) => ({
           ...state,
           books: payload,
+          loading: false,
           error: undefined,
         }),
       )

@@ -11,6 +11,7 @@ body {
   --primary-color: #0290ff;
   --secondary-color: #d4d4d4;
   --cool-blue: #4386bf;
+  --dark-color: #a3a3a3;
 
   background-color: #efeaea;
 }
@@ -26,7 +27,7 @@ body {
 }
 
 a {
-  color: var(--secondary-color);
+  color: var(--dark-color);
   text-decoration: none;
 }
 
