@@ -5,6 +5,7 @@
   padding: 30px;
   display: flex;
   justify-content: space-between;
+  border: 1px solid #e8e8e8;
 
   ul {
     list-style: none;
@@ -27,6 +28,8 @@
         border: none;
         color: var(--cool-blue);
         cursor: pointer;
+        font-weight: lighter;
+        font-family: 'Roboto Slab', serif;
       }
     }
   }
@@ -87,8 +90,8 @@
       &::before {
         content: "";
         display: block;
-        width: 64px;
-        height: 64px;
+        width: 66px;
+        height: 66px;
         border-radius: 50%;
         background: #fff;
         position: absolute;
@@ -118,6 +121,7 @@
 
     h3 {
       font-size: 13px;
+      font-weight: 300;
       color: var(--dark-color);
       margin-bottom: 5px;
     }
@@ -130,7 +134,10 @@
 
     button {
       background-color: var(--primary-color);
-      color: #e2e2e2;
+      font-weight: lighter;
+      font-family: 'Roboto Slab', serif;
+      letter-spacing: 1px;
+      color: #fff;
       border: none;
       padding: 10px 20px;
       border-radius: 4px;

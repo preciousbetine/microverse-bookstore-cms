@@ -27,8 +27,9 @@ const Book = ({
     const progressTimer = setInterval(() => {
       progressValue += 1;
       progressBar.current.style.background = `conic-gradient(
-        var(--primary-color) ${progressValue * 3.6}deg,
-        var(--secondary-color) ${progressValue * 3.6}deg
+        #307bbe ${progress * 3.6}deg,
+        #379cf6 ${(progress * 3.6)}deg,
+        var(--secondary-color)
       )`;
       if (progressValue === progressEndValue) clearInterval(progressTimer);
     }, speed);
