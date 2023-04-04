@@ -22,14 +22,18 @@
     }
 
     .title-input {
-      width: 50%;
+      width: 30%;
     }
 
     .author-input {
       width: 30%;
     }
 
-    input {
+    .category-select {
+      width: 20%;
+    }
+
+    input, select {
       border: 1px solid #dadada;
       outline: none;
     }
@@ -62,7 +66,8 @@
       flex-direction: column;
 
       .title-input,
-      .author-input {
+      .author-input,
+      .category-select {
         width: 100%;
       }
 

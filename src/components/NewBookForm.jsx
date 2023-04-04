@@ -1,25 +1,37 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addBook } from '@/redux/books/booksSlice';
 import Styles from '@/styles/NewBookForm.module.scss';
 
 const NewBookForm = () => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
+  const [category, setCategory] = useState('Fiction');
   const titleInput = React.createRef();
 
-  const { defaultCategory } = useSelector((store) => store.books);
   const dispatch = useDispatch();
+  const categories = [
+    'Fiction',
+    'Non-fiction',
+    'Poetry',
+    'Drama',
+    'Biography',
+    'History',
+    'Business and economice',
+    'Self help',
+    'Philosophy',
+  ];
 
   const submitForm = (e) => {
     e.preventDefault();
     dispatch(addBook({
       title,
       author,
-      category: defaultCategory,
+      category,
     }));
     setTitle('');
     setAuthor('');
+    setCategory('Fiction');
     titleInput.current.focus();
   };
 
@@ -42,6 +54,15 @@ const NewBookForm = () => {
           className={Styles['author-input']}
           required
         />
+        <select
+          className={Styles['category-select']}
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        >
+          {
+            categories.map((category) => <option key={category}>{category}</option>)
+          }
+        </select>
         <button type="submit">ADD BOOK</button>
       </form>
     </div>
