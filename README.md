@@ -70,8 +70,8 @@ A book site where users can and remove books.
 
 <!-- > Add a link to your deployed project. -->
 
-<!-- - [Live Demo Link](https://preciousbetine.github.io/microverse-javascript-capstone/dist) -->
-- No Live Demo yet
+- [Live Demo Link](https://microverse-bookstore-cms.vercel.app/)
+<!-- - No Live Demo yet -->
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
