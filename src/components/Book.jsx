@@ -21,19 +21,11 @@ const Book = ({
   };
 
   useEffect(() => {
-    let progressValue = 0;
-    const progressEndValue = progress;
-    const speed = 10;
-
-    const progressTimer = setInterval(() => {
-      progressValue += 1;
-      progressBar.current.style.background = `conic-gradient(
-        #307bbe ${progress * 3.6}deg,
-        #379cf6 ${(progress * 3.6)}deg,
-        var(--secondary-color)
-      )`;
-      if (progressValue >= progressEndValue) clearInterval(progressTimer);
-    }, speed);
+    progressBar.current.style.background = `conic-gradient(
+      #307bbe ${progress * 3.6}deg,
+      #379cf6 ${(progress * 3.6)}deg,
+      var(--secondary-color)
+    )`;
   }, [progress, progressBar]);
 
   const bookControls = (
