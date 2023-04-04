@@ -32,7 +32,7 @@
 
 # About Project <a name="about-project"></a>
 
-A content management site where users can and remove books.
+A content management system website where users can and remove books.
 
 ## 🛠 Built With <a name="built-with"></a>
 
@@ -61,6 +61,7 @@ A content management site where users can and remove books.
 
 - A homepage displaying all books
 - A form to add a new book
+- A page where users can view books by category
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
