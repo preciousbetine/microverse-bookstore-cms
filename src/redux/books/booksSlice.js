@@ -8,7 +8,6 @@ import {
 import { addBookAtAPI, deleteBookAtAPI, getBooksFromAPI } from './booksApi';
 
 const initialState = {
-  defaultCategory: 'Fiction',
   books: [],
   loading: false,
   error: undefined,

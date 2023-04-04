@@ -6,9 +6,10 @@ import Styles from '@/styles/NewBookForm.module.scss';
 const NewBookForm = () => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
+  const [category, setCategory] = useState('Fiction');
+  const { categories } = useSelector((store) => store.categories);
   const titleInput = React.createRef();
 
-  const { defaultCategory } = useSelector((store) => store.books);
   const dispatch = useDispatch();
 
   const submitForm = (e) => {
@@ -16,10 +17,11 @@ const NewBookForm = () => {
     dispatch(addBook({
       title,
       author,
-      category: defaultCategory,
+      category,
     }));
     setTitle('');
     setAuthor('');
+    setCategory('Fiction');
     titleInput.current.focus();
   };
 
@@ -42,6 +44,15 @@ const NewBookForm = () => {
           className={Styles['author-input']}
           required
         />
+        <select
+          className={Styles['category-select']}
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        >
+          {
+            categories.map((category) => <option key={category}>{category}</option>)
+          }
+        </select>
         <button type="submit">ADD BOOK</button>
       </form>
     </div>
