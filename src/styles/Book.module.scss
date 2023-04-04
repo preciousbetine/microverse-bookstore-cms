@@ -71,12 +71,24 @@
     padding: 0 30px;
 
     .progress-display {
-      width: 70px;
-      height: 70px;
-      border: 6px solid var(--primary-color);
+      width: 76px;
+      height: 76px;
+      background: var(--secondary-color);
       border-radius: 50%;
-      border-left-color: var(--secondary-color);
-      transform: rotate(45deg);
+      position: relative;
+
+      &::before {
+        content: "";
+        display: block;
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: #fff;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
     }
 
     p {

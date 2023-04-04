@@ -22,6 +22,8 @@ export const getBooksFromAPI = async () => {
       author: entry[1][0].author,
       title: entry[1][0].title,
       category: entry[1][0].category,
+      // Add a random progress value
+      progress: Math.floor(Math.random() * 100),
     }))
     .sort((a, b) => a.item_id.localeCompare(b.item_id, 'en', { numeric: true }));
 

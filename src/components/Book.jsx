@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { removeBook } from '@/redux/books/booksSlice';
@@ -5,13 +6,33 @@ import { showMessage } from '@/redux/modal/modalSlice';
 import Styles from '@/styles/Book.module.scss';
 
 const Book = ({
-  bookId, title, author, category,
+  bookId,
+  title,
+  author,
+  category,
+  progress,
 }) => {
   const dispatch = useDispatch();
+  const progressBar = React.createRef();
 
   const deleteThisBook = () => {
     dispatch(removeBook(bookId));
   };
+
+  useEffect(() => {
+    let progressValue = 0;
+    const progressEndValue = progress;
+    const speed = 10;
+
+    const progressTimer = setInterval(() => {
+      progressValue += 1;
+      progressBar.current.style.background = `conic-gradient(
+        var(--primary-color) ${progressValue * 3.6}deg,
+        var(--secondary-color) ${progressValue * 3.6}deg
+      )`;
+      if (progressValue === progressEndValue) clearInterval(progressTimer);
+    }, speed);
+  }, [progress, progressBar]);
 
   return (
     <div className={Styles.book}>
@@ -50,9 +71,16 @@ const Book = ({
       </div>
       <div className={Styles['reading-progress']}>
         <div className={Styles['percent-complete']}>
-          <div className={Styles['progress-display']} />
+          <div
+            ref={progressBar}
+            className={Styles['progress-display']}
+          />
           <div>
-            <p className={Styles['percent-value']}>64%</p>
+            <p className={Styles['percent-value']}>
+              {progress}
+              {' '}
+              %
+            </p>
             <p>Completed</p>
           </div>
         </div>
@@ -76,6 +104,7 @@ Book.propTypes = {
   title: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
+  progress: PropTypes.number.isRequired,
 };
 
 export default Book;
