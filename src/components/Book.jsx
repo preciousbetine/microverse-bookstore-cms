@@ -11,6 +11,7 @@ const Book = ({
   author,
   category,
   progress,
+  chapter,
 }) => {
   const dispatch = useDispatch();
   const progressBar = React.createRef();
@@ -31,7 +32,7 @@ const Book = ({
         #379cf6 ${(progress * 3.6)}deg,
         var(--secondary-color)
       )`;
-      if (progressValue === progressEndValue) clearInterval(progressTimer);
+      if (progressValue >= progressEndValue) clearInterval(progressTimer);
     }, speed);
   }, [progress, progressBar]);
 
@@ -93,7 +94,7 @@ const Book = ({
         </div>
         <div className={Styles['progress-update']}>
           <h3>CURRENT CHAPTER</h3>
-          <p>CHAPTER 17</p>
+          <p>{chapter}</p>
           <button
             type="button"
             onClick={() => dispatch(showMessage('Feature not implemented yet'))}
@@ -115,6 +116,7 @@ Book.propTypes = {
   author: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
   progress: PropTypes.number.isRequired,
+  chapter: PropTypes.string.isRequired,
 };
 
 export default Book;
