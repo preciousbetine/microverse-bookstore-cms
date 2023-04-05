@@ -108,7 +108,7 @@ Book.propTypes = {
   author: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
   progress: PropTypes.number.isRequired,
-  chapter: PropTypes.string.isRequired,
+  chapter: PropTypes.number.isRequired,
 };
 
 export default Book;
