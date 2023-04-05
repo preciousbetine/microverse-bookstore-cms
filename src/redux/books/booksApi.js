@@ -25,44 +25,16 @@ export const getBooksFromAPI = async () => {
       item_id: entry[0].split('_')[0],
       author: entry[1][0].author,
       title: entry[1][0].title,
-      category: entry[1][0].category,
-      // category: JSON.parse(entry[1][0].category)[0],
+      category: JSON.parse(entry[1][0].category)[0],
       // progress: current_chapter / num_chapters * 100
       progress: Math.ceil((Number(entry[0].split('_')[1]) / Number(entry[0].split('_')[2])) * 100),
       chapter: Number(entry[0].split('_')[1]),
       numChapters: Number(entry[0].split('_')[2]),
-      // comments: JSON.parse(entry[1][0].category)[1],
+      comments: JSON.parse(entry[1][0].category)[1],
     }))
     .sort((a, b) => a.item_id.localeCompare(b.item_id, 'en', { numeric: true }));
 
   return books;
-};
-
-export const editBooks = async () => {
-  const resp = await axios(`${apiBase}/apps/${appId}/books`);
-
-  // Flatten the received array and sort it
-  const books = Object.entries(resp.data)
-    .map((entry) => ({
-      item_id: entry[0],
-      author: entry[1][0].author,
-      title: entry[1][0].title,
-      category: JSON.stringify([entry[1][0].category, []]),
-    // comments: JSON.parse(entry[1][0].category)[1],
-    }))
-    .sort((a, b) => a.item_id.localeCompare(b.item_id, 'en', { numeric: true }));
-
-  for (let i = 0; i < books.length; i += 1) {
-    // eslint-disable-next-line no-await-in-loop
-    let result = await axios.delete(`${apiBase}/apps/${appId}/books/${books[i].item_id}`);
-    console.log(result);
-    // eslint-disable-next-line no-await-in-loop
-    result = await axios.post(
-      `${apiBase}/apps/${appId}/books`,
-      books[i],
-    );
-    console.log(result);
-  }
 };
 
 export const addBookAtAPI = async (bookInfo, books) => {
@@ -99,14 +71,21 @@ export const updateBookChaterAtAPI = async (bookId, newChapter, books) => {
   return 'Error';
 };
 
-export const commentOnBook = async (bookId, comment, books) => {
+export const commentOnBook = async (bookId, username, comment, books) => {
+  const timestamp = JSON.stringify(new Date());
+
+  // const date = new Date(JSON.parse(timestamp));
   // The comments are stored with the category of the book.
   let book = books.find((book) => book.item_id === bookId);
   const categoryComments = [
     book.category,
     [
       ...book.comments,
-      comment,
+      {
+        username,
+        comment,
+        timestamp,
+      },
     ],
   ];
   book = {

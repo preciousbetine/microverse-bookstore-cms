@@ -13,9 +13,10 @@ const Modal = () => {
   const [bookChapter, setBookChapter] = useState(0);
   const [numChapters, setNumChapters] = useState(0);
   const [bookComments, setBookComments] = useState([]);
-  const [comment, setComment] = useState([]);
+  const [username, setUsername] = useState('');
+  const [comment, setComment] = useState('');
   const chapterInput = React.createRef();
-  const commentInput = React.createRef();
+  const usernameInput = React.createRef();
 
   useEffect(() => {
     if (showing) {
@@ -32,8 +33,8 @@ const Modal = () => {
 
   useEffect(() => {
     chapterInput.current?.focus();
-    commentInput.current?.focus();
-  }, [chapterInput, commentInput]);
+    usernameInput.current?.focus();
+  }, []);
 
   if (message === 'update' && showing) {
     const updateChapter = (e) => {
@@ -73,7 +74,9 @@ const Modal = () => {
   if (message === 'comment' && showing) {
     const postComment = (e) => {
       e.preventDefault();
-      dispatch(makeComment({ bookId: book.item_id, comment }));
+      dispatch(makeComment({ bookId: book, username, comment }));
+      setComment('');
+      setUsername('');
     };
 
     return (
@@ -89,11 +92,34 @@ const Modal = () => {
             </button>
           </div>
           <ul className={Styles.comment}>
-            {bookComments.map((comment) => <li key={comment}>{comment}</li>)}
+            {bookComments.map(({ username, comment, timestamp }) => (
+              <li key={timestamp}>
+                <span className={Styles['comment-timestamp']}>
+                  {(new Date(JSON.parse(timestamp))).getDate()}
+                  /
+                  {(new Date(JSON.parse(timestamp))).getMonth() + 1}
+                  /
+                  {(new Date(JSON.parse(timestamp))).getFullYear()}
+                  {' '}
+                  {(new Date(JSON.parse(timestamp))).getHours()}
+                  :
+                  {(new Date(JSON.parse(timestamp))).getMinutes()}
+                </span>
+                <p className={Styles['comment-username']}>{username}</p>
+                <p className={Styles['comment-body']}>{comment}</p>
+              </li>
+            ))}
           </ul>
           <form className={Styles['comment-form']} onSubmit={postComment}>
             <input
-              ref={commentInput}
+              className={Styles['username-input']}
+              ref={usernameInput}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Enter your name..."
+            />
+            <input
+              className={Styles['comment-input']}
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               placeholder="Enter your comment..."

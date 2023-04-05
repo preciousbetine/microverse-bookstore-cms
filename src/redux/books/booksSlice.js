@@ -99,13 +99,10 @@ const editBook = createAsyncThunk(
 
 const makeComment = createAsyncThunk(
   'books/comment',
-  async ({ bookId, comment }, thunkAPI) => {
-    console.log(bookId);
+  async ({ bookId, username, comment }, thunkAPI) => {
     try {
       const { books } = thunkAPI.getState().books;
-      await deleteBookAtAPI(bookId, books);
-      const updatedBooks = books.filter((book) => book.item_id !== bookId);
-      const resp = await commentOnBook(bookId, comment, updatedBooks);
+      const resp = await commentOnBook(bookId, username, comment, books);
       if (resp === 'Created') {
         const books = await getBooksFromAPI();
         return books;
