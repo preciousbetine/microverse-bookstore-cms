@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   showing: false,
   message: 'Message',
+  book: null,
 };
 
 const modalSlice = createSlice({
@@ -18,8 +19,21 @@ const modalSlice = createSlice({
       message: payload,
       showing: true,
     }),
+    updateChapter: (state, { payload }) => ({
+      ...state,
+      showing: true,
+      message: 'update',
+      book: payload,
+    }),
+    showFeatures: (state) => ({
+      ...state,
+      message: 'features',
+      showing: true,
+    }),
   },
 });
 
-export const { hideModal, showMessage } = modalSlice.actions;
+export const {
+  hideModal, showMessage, updateChapter, showFeatures,
+} = modalSlice.actions;
 export default modalSlice.reducer;

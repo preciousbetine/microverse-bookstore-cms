@@ -31,7 +31,17 @@
         font-weight: lighter;
         font-family: 'Roboto Slab', serif;
       }
+
+      .save-btn {
+        color: rgb(232, 162, 10);
+        font-weight: bold;
+      }
     }
+  }
+
+  input,
+  select {
+    max-width: 100%;
   }
 
   .mobile-controls {
@@ -48,12 +58,28 @@
   font-size: 15px;
   font-weight: bold;
   margin-bottom: 5px;
+
+  .category-select {
+    padding: 5px;
+    border: 1px solid #dadada;
+    outline: none;
+  }
 }
 
 .book-title {
   font-size: 25px;
   font-weight: bold;
   font-family: 'Roboto Slab', serif;
+}
+
+.title-input {
+  display: block;
+  font-size: 25px;
+  font-weight: bold;
+  font-family: 'Roboto Slab', serif;
+  padding: 10px;
+  border: 1px solid #dadada;
+  outline: none;
 }
 
 .author {
@@ -63,10 +89,32 @@
   color: var(--cool-blue);
 }
 
+.author-input {
+  display: block;
+  font-size: 15px;
+  font-weight: lighter;
+  font-family: 'Roboto Slab', serif;
+  color: var(--cool-blue);
+  padding: 10px;
+  border: 1px solid #dadada;
+  outline: none;
+}
+
 .book-description {
   display: flex;
   flex-direction: column;
   gap: 50px;
+}
+
+.chapter-edit {
+  display: block;
+  font-size: 15px;
+  font-weight: lighter;
+  font-family: 'Roboto Slab', serif;
+  color: var(--cool-blue);
+  padding: 10px;
+  border: 1px solid #dadada;
+  outline: none;
 }
 
 .reading-progress {
