@@ -13,6 +13,7 @@ const Book = ({
   progress,
   chapter,
   numChapters,
+  comments,
 }) => {
   const dispatch = useDispatch();
   const progressBar = React.createRef();
@@ -34,6 +35,7 @@ const Book = ({
       title: titleEdit,
       author: authorEdit,
       category: categoryEdit,
+      comments,
     };
     setIsEditing(false);
     dispatch(editBook({ bookId, book }));
@@ -204,6 +206,13 @@ Book.propTypes = {
   progress: PropTypes.number.isRequired,
   chapter: PropTypes.number.isRequired,
   numChapters: PropTypes.number.isRequired,
+  comments: PropTypes.arrayOf(
+    PropTypes.shape({
+      username: PropTypes.string.isRequired,
+      comment: PropTypes.string.isRequired,
+      timestamp: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
 };
 
 export default Book;
