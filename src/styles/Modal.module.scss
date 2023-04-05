@@ -12,6 +12,23 @@
   justify-content: center;
 }
 
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+
+  button {
+    height: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: var(--primary-color);
+    transition: 0.4s all;
+  }
+}
+
 .modal {
   background-color: #fff;
   padding: 30px;
@@ -43,16 +60,11 @@
       padding: 5px 15px;
       cursor: pointer;
       transition: 0.5s all;
-
-      &:hover {
-        padding: 5px 20px;
-      }
     }
   }
 
   h3 {
     font-size: 14px;
-    // color: var(--primary-color);
     color: orange;
   }
 
@@ -64,23 +76,10 @@
   }
 }
 
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 40px;
+.modal-header button:hover {
+  transform: scale(1.1);
+}
 
-  button {
-    height: 100%;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 20px;
-    color: var(--primary-color);
-    transition: 0.4s all;
-
-    &:hover {
-      transform: scale(1.1);
-    }
-  }
+.modal form button:hover {
+  padding: 5px 20px;
 }
