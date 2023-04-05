@@ -18,6 +18,7 @@ const Comment = () => {
   useEffect(() => {
     const currentBook = books.find((item) => item.item_id === book);
     setBookComments(currentBook.comments);
+    usernameInput.current?.focus();
   }, [book, books]);
 
   const postComment = (e) => {
