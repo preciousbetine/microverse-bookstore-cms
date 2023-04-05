@@ -77,6 +77,24 @@ const updateBookChapter = createAsyncThunk(
   },
 );
 
+const editBook = createAsyncThunk(
+  'books/editBook',
+  async ({ bookId, book }, thunkAPI) => {
+    try {
+      const { books } = thunkAPI.getState().books;
+      await deleteBookAtAPI(bookId, books);
+      const resp = await addBookAtAPI(book, books);
+      if (resp === 'Created') {
+        const books = await getBooksFromAPI();
+        return books;
+      }
+      return thunkAPI.rejectWithValue('Wrong API response received!');
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.message);
+    }
+  },
+);
+
 const booksSlice = createSlice({
   name: 'books',
   initialState,
@@ -89,14 +107,14 @@ const booksSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addMatcher(
-        isPending(addBook, fetchBooks, removeBook, updateBookChapter),
+        isPending(addBook, fetchBooks, removeBook, editBook, updateBookChapter),
         (state) => ({
           ...state,
           loading: true,
         }),
       )
       .addMatcher(
-        isFulfilled(addBook, fetchBooks, removeBook, updateBookChapter),
+        isFulfilled(addBook, fetchBooks, removeBook, editBook, updateBookChapter),
         (state, { payload }) => ({
           ...state,
           books: payload,
@@ -105,7 +123,7 @@ const booksSlice = createSlice({
         }),
       )
       .addMatcher(
-        isRejected(addBook, fetchBooks, removeBook, updateBookChapter),
+        isRejected(addBook, fetchBooks, removeBook, editBook, updateBookChapter),
         (state, { payload }) => ({
           ...state,
           loading: false,
@@ -116,7 +134,11 @@ const booksSlice = createSlice({
 });
 
 export {
-  fetchBooks, addBook, removeBook, updateBookChapter,
+  fetchBooks,
+  addBook,
+  removeBook,
+  editBook,
+  updateBookChapter,
 };
 export const { clearBooksError } = booksSlice.actions;
 export default booksSlice.reducer;
