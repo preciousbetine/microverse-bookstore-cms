@@ -70,6 +70,7 @@ const Comment = () => {
           onChange={(e) => setUsername(e.target.value)}
           placeholder="Enter your name..."
           maxLength={15}
+          required
         />
         <input
           className={Styles['comment-input']}
@@ -77,6 +78,7 @@ const Comment = () => {
           onChange={(e) => setComment(e.target.value)}
           placeholder="Enter your comment..."
           maxLength={30}
+          required
         />
         <button type="submit">
           <AiOutlineSend />

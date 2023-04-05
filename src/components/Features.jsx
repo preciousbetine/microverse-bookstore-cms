@@ -28,7 +28,7 @@ const Features = () => {
         <li>Edit books: users can modify book information.</li>
         <li>Set progress: users can update their reading progress.</li>
         <li>Show books by category: users can filter the library.</li>
-        <li>Comment feature: users can leave feedback (currently not working).</li>
+        <li>Comment feature: users can leave feedback.</li>
       </ul>
     </>
   );
