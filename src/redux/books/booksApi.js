@@ -38,11 +38,17 @@ export const getBooksFromAPI = async () => {
 };
 
 export const addBookAtAPI = async (bookInfo, books) => {
+  const categoryComments = [
+    bookInfo.category,
+    bookInfo.comments,
+  ];
+
   const resp = await axios.post(
     `${apiBase}/apps/${appId}/books`,
     {
       item_id: getNextItemID(books),
       ...bookInfo,
+      category: JSON.stringify(categoryComments),
     },
   );
   return resp.data;
@@ -57,11 +63,15 @@ export const deleteBookAtAPI = async (bookId, books) => {
 
 export const updateBookChaterAtAPI = async (bookId, newChapter, books) => {
   let book = books.find((book) => book.item_id === bookId);
+  const categoryComments = [
+    book.category,
+    book.comments,
+  ];
   book = {
     item_id: `${book.item_id}_${newChapter}_${book.numChapters}`,
     title: book.title,
     author: book.author,
-    category: book.category,
+    category: JSON.stringify(categoryComments),
   };
   let resp = await deleteBookAtAPI(bookId, books);
   if (resp.toLowerCase().includes('deleted successfully')) {
@@ -74,7 +84,6 @@ export const updateBookChaterAtAPI = async (bookId, newChapter, books) => {
 export const commentOnBook = async (bookId, username, comment, books) => {
   const timestamp = JSON.stringify(new Date());
 
-  // const date = new Date(JSON.parse(timestamp));
   // The comments are stored with the category of the book.
   let book = books.find((book) => book.item_id === bookId);
   const categoryComments = [
