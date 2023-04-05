@@ -17,6 +17,7 @@ const Home = () => {
       progress={book.progress}
       chapter={book.chapter}
       numChapters={book.numChapters}
+      comments={book.comments}
     />
   ));
 

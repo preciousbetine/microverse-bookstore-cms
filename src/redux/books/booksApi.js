@@ -25,11 +25,12 @@ export const getBooksFromAPI = async () => {
       item_id: entry[0].split('_')[0],
       author: entry[1][0].author,
       title: entry[1][0].title,
-      category: entry[1][0].category,
+      category: JSON.parse(entry[1][0].category)[0],
       // progress: current_chapter / num_chapters * 100
       progress: Math.ceil((Number(entry[0].split('_')[1]) / Number(entry[0].split('_')[2])) * 100),
       chapter: Number(entry[0].split('_')[1]),
       numChapters: Number(entry[0].split('_')[2]),
+      comments: JSON.parse(entry[1][0].category)[1],
     }))
     .sort((a, b) => a.item_id.localeCompare(b.item_id, 'en', { numeric: true }));
 
@@ -37,11 +38,17 @@ export const getBooksFromAPI = async () => {
 };
 
 export const addBookAtAPI = async (bookInfo, books) => {
+  const categoryComments = [
+    bookInfo.category,
+    bookInfo.comments,
+  ];
+
   const resp = await axios.post(
     `${apiBase}/apps/${appId}/books`,
     {
       item_id: getNextItemID(books),
       ...bookInfo,
+      category: JSON.stringify(categoryComments),
     },
   );
   return resp.data;
@@ -61,7 +68,38 @@ export const updateBookChaterAtAPI = async (bookId, newChapter, books) => {
     title: book.title,
     author: book.author,
     category: book.category,
+    comments: book.comments,
   };
+  let resp = await deleteBookAtAPI(bookId, books);
+  if (resp.toLowerCase().includes('deleted successfully')) {
+    resp = await addBookAtAPI(book, books);
+    return resp;
+  }
+  return 'Error';
+};
+
+export const commentOnBook = async (bookId, username, comment, books) => {
+  const timestamp = JSON.stringify(new Date());
+
+  // The comments are stored with the category of the book.
+  let book = books.find((book) => book.item_id === bookId);
+  const comments = [
+    ...book.comments,
+    {
+      username,
+      comment,
+      timestamp,
+    },
+  ];
+
+  book = {
+    item_id: `${book.item_id}_${book.chapter}_${book.numChapters}`,
+    title: book.title,
+    author: book.author,
+    category: book.category,
+    comments,
+  };
+
   let resp = await deleteBookAtAPI(bookId, books);
   if (resp.toLowerCase().includes('deleted successfully')) {
     resp = await addBookAtAPI(book, books);

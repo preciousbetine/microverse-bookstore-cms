@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeBook, editBook } from '@/redux/books/booksSlice';
-import { showMessage, updateChapter } from '@/redux/modal/modalSlice';
+import { updateChapter, comment } from '@/redux/modal/modalSlice';
 import Styles from '@/styles/Book.module.scss';
 
 const Book = ({
@@ -13,6 +13,7 @@ const Book = ({
   progress,
   chapter,
   numChapters,
+  comments,
 }) => {
   const dispatch = useDispatch();
   const progressBar = React.createRef();
@@ -34,6 +35,7 @@ const Book = ({
       title: titleEdit,
       author: authorEdit,
       category: categoryEdit,
+      comments,
     };
     setIsEditing(false);
     dispatch(editBook({ bookId, book }));
@@ -52,7 +54,7 @@ const Book = ({
       <li>
         <button
           type="button"
-          onClick={() => dispatch(showMessage('Feature not implemented yet'))}
+          onClick={() => dispatch(comment(bookId))}
         >
           Comments
         </button>
@@ -204,6 +206,13 @@ Book.propTypes = {
   progress: PropTypes.number.isRequired,
   chapter: PropTypes.number.isRequired,
   numChapters: PropTypes.number.isRequired,
+  comments: PropTypes.arrayOf(
+    PropTypes.shape({
+      username: PropTypes.string.isRequired,
+      comment: PropTypes.string.isRequired,
+      timestamp: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
 };
 
 export default Book;
