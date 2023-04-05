@@ -25,6 +25,12 @@ const modalSlice = createSlice({
       message: 'update',
       book: payload,
     }),
+    comment: (state, { payload }) => ({
+      ...state,
+      showing: true,
+      message: 'comment',
+      book: payload,
+    }),
     showFeatures: (state) => ({
       ...state,
       message: 'features',
@@ -34,6 +40,10 @@ const modalSlice = createSlice({
 });
 
 export const {
-  hideModal, showMessage, updateChapter, showFeatures,
+  hideModal,
+  showMessage,
+  updateChapter,
+  showFeatures,
+  comment,
 } = modalSlice.actions;
 export default modalSlice.reducer;

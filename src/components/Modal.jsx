@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
+import { AiOutlineSend } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import { hideModal } from '@/redux/modal/modalSlice';
-import { updateBookChapter } from '@/redux/books/booksSlice';
+import { makeComment, updateBookChapter } from '@/redux/books/booksSlice';
 import Styles from '@/styles/Modal.module.scss';
 
 const Modal = () => {
@@ -11,19 +12,28 @@ const Modal = () => {
   const { books } = useSelector((store) => store.books);
   const [bookChapter, setBookChapter] = useState(0);
   const [numChapters, setNumChapters] = useState(0);
+  const [bookComments, setBookComments] = useState([]);
+  const [comment, setComment] = useState([]);
   const chapterInput = React.createRef();
+  const commentInput = React.createRef();
 
   useEffect(() => {
-    if (message === 'update' && showing) {
+    if (showing) {
       const currentBook = books.find((item) => item.item_id === book);
-      setBookChapter(currentBook.chapter);
-      setNumChapters(currentBook.numChapters);
+      if (message === 'update') {
+        setBookChapter(currentBook.chapter);
+        setNumChapters(currentBook.numChapters);
+      }
+      if (message === 'comment') {
+        setBookComments(currentBook.comments);
+      }
     }
   }, [books, book, message, showing]);
 
   useEffect(() => {
     chapterInput.current?.focus();
-  }, [chapterInput]);
+    commentInput.current?.focus();
+  }, [chapterInput, commentInput]);
 
   if (message === 'update' && showing) {
     const updateChapter = (e) => {
@@ -54,6 +64,43 @@ const Modal = () => {
               onChange={(e) => setBookChapter(e.target.value.replace(/^0+/, ''))}
             />
             <button type="submit">UPDATE</button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
+  if (message === 'comment' && showing) {
+    const postComment = (e) => {
+      e.preventDefault();
+      dispatch(makeComment({ bookId: book.item_id, comment }));
+    };
+
+    return (
+      <div className={Styles['modal-parent']}>
+        <div className={Styles.modal}>
+          <div className={Styles['modal-header']}>
+            <h2>Comments</h2>
+            <button
+              type="button"
+              onClick={() => dispatch(hideModal())}
+            >
+              <FaTimes />
+            </button>
+          </div>
+          <ul className={Styles.comment}>
+            {bookComments.map((comment) => <li key={comment}>{comment}</li>)}
+          </ul>
+          <form className={Styles['comment-form']} onSubmit={postComment}>
+            <input
+              ref={commentInput}
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder="Enter your comment..."
+            />
+            <button type="submit">
+              <AiOutlineSend />
+            </button>
           </form>
         </div>
       </div>

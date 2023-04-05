@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeBook, editBook } from '@/redux/books/booksSlice';
-import { showMessage, updateChapter } from '@/redux/modal/modalSlice';
+import { updateChapter, comment } from '@/redux/modal/modalSlice';
 import Styles from '@/styles/Book.module.scss';
 
 const Book = ({
@@ -52,7 +52,7 @@ const Book = ({
       <li>
         <button
           type="button"
-          onClick={() => dispatch(showMessage('Feature not implemented yet'))}
+          onClick={() => dispatch(comment(bookId))}
         >
           Comments
         </button>

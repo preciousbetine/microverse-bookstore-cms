@@ -7,6 +7,7 @@ import {
 } from '@reduxjs/toolkit';
 import {
   addBookAtAPI,
+  commentOnBook,
   deleteBookAtAPI,
   getBooksFromAPI,
   updateBookChaterAtAPI,
@@ -96,6 +97,26 @@ const editBook = createAsyncThunk(
   },
 );
 
+const makeComment = createAsyncThunk(
+  'books/comment',
+  async ({ bookId, comment }, thunkAPI) => {
+    console.log(bookId);
+    try {
+      const { books } = thunkAPI.getState().books;
+      await deleteBookAtAPI(bookId, books);
+      const updatedBooks = books.filter((book) => book.item_id !== bookId);
+      const resp = await commentOnBook(bookId, comment, updatedBooks);
+      if (resp === 'Created') {
+        const books = await getBooksFromAPI();
+        return books;
+      }
+      return thunkAPI.rejectWithValue('Wrong API response received!');
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.message);
+    }
+  },
+);
+
 const booksSlice = createSlice({
   name: 'books',
   initialState,
@@ -108,14 +129,14 @@ const booksSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addMatcher(
-        isPending(addBook, fetchBooks, removeBook, editBook, updateBookChapter),
+        isPending(addBook, fetchBooks, removeBook, editBook, updateBookChapter, makeComment),
         (state) => ({
           ...state,
           loading: true,
         }),
       )
       .addMatcher(
-        isFulfilled(addBook, fetchBooks, removeBook, editBook, updateBookChapter),
+        isFulfilled(addBook, fetchBooks, removeBook, editBook, updateBookChapter, makeComment),
         (state, { payload }) => ({
           ...state,
           books: payload,
@@ -124,7 +145,7 @@ const booksSlice = createSlice({
         }),
       )
       .addMatcher(
-        isRejected(addBook, fetchBooks, removeBook, editBook, updateBookChapter),
+        isRejected(addBook, fetchBooks, removeBook, editBook, updateBookChapter, makeComment),
         (state, { payload }) => ({
           ...state,
           loading: false,
@@ -140,6 +161,7 @@ export {
   removeBook,
   editBook,
   updateBookChapter,
+  makeComment,
 };
 export const { clearBooksError } = booksSlice.actions;
 export default booksSlice.reducer;

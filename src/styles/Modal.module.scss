@@ -63,6 +63,37 @@
     }
   }
 
+  .comment {
+    list-style: none;
+    padding: 0;
+
+    li {
+      border: 1px solid;
+    }
+  }
+
+  .comment-form {
+    flex-direction: row;
+    gap: 0;
+
+    input {
+      width: 80%;
+      border-top-left-radius: 20px;
+      border-bottom-left-radius: 20px;
+
+      &::placeholder {
+        font-style: italic;
+      }
+    }
+
+    button {
+      width: 20%;
+      padding: 10px;
+      border-top-right-radius: 20px;
+      border-bottom-right-radius: 20px;
+    }
+  }
+
   h3 {
     font-size: 14px;
     color: orange;
