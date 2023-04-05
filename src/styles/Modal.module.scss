@@ -102,10 +102,6 @@
       width: 20%;
       padding: 10px;
       border-radius: 10px;
-
-      &:hover {
-        padding: 10px;
-      }
     }
   }
 
@@ -128,4 +124,8 @@
 
 .modal form button:hover {
   padding: 5px 20px;
+}
+
+.modal .comment-form button:hover {
+  padding: 10px;
 }
