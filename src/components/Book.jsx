@@ -153,7 +153,6 @@ const Book = ({
           <div>
             <p className={Styles['percent-value']}>
               {progress}
-              {' '}
               %
             </p>
             <p>Completed</p>
