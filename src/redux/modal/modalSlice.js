@@ -24,10 +24,16 @@ const modalSlice = createSlice({
       showing: true,
       message: 'update',
       book: payload,
-    })
-    ,
+    }),
+    showFeatures: (state) => ({
+      ...state,
+      message: 'features',
+      showing: true,
+    }),
   },
 });
 
-export const { hideModal, showMessage, updateChapter } = modalSlice.actions;
+export const {
+  hideModal, showMessage, updateChapter, showFeatures,
+} = modalSlice.actions;
 export default modalSlice.reducer;

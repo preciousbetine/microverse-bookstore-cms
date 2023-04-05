@@ -60,6 +60,36 @@ const Modal = () => {
     );
   }
 
+  if (message === 'features' && showing) {
+    return (
+      <div className={Styles['modal-parent']}>
+        <div className={Styles.modal}>
+          <div className={Styles['modal-header']}>
+            <h2>Features</h2>
+            <button
+              type="button"
+              onClick={() => dispatch(hideModal())}
+            >
+              <FaTimes />
+            </button>
+          </div>
+          <h3>
+            Note: This is not a multi-user app.
+            A single user can perform all the actions listed below.
+          </h3>
+          <ul>
+            <li>Add books: users can add new books with relevant information.</li>
+            <li>Remove books: users can delete books from the library.</li>
+            <li>Edit books: users can modify book information.</li>
+            <li>Set progress: users can update their reading progress.</li>
+            <li>Show books by category: users can filter the library.</li>
+            <li>Comment feature: users can leave feedback (currently not working).</li>
+          </ul>
+        </div>
+      </div>
+    );
+  }
+
   if (showing) {
     return (
       <div className={Styles['modal-parent']}>

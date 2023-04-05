@@ -49,6 +49,19 @@
       }
     }
   }
+
+  h3 {
+    font-size: 14px;
+    // color: var(--primary-color);
+    color: orange;
+  }
+
+  ul {
+    padding: 10px 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
 }
 
 .modal-header {
