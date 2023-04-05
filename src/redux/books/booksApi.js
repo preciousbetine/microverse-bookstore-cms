@@ -63,15 +63,12 @@ export const deleteBookAtAPI = async (bookId, books) => {
 
 export const updateBookChaterAtAPI = async (bookId, newChapter, books) => {
   let book = books.find((book) => book.item_id === bookId);
-  const categoryComments = [
-    book.category,
-    book.comments,
-  ];
   book = {
     item_id: `${book.item_id}_${newChapter}_${book.numChapters}`,
     title: book.title,
     author: book.author,
-    category: JSON.stringify(categoryComments),
+    category: book.category,
+    comments: book.comments,
   };
   let resp = await deleteBookAtAPI(bookId, books);
   if (resp.toLowerCase().includes('deleted successfully')) {
@@ -86,23 +83,23 @@ export const commentOnBook = async (bookId, username, comment, books) => {
 
   // The comments are stored with the category of the book.
   let book = books.find((book) => book.item_id === bookId);
-  const categoryComments = [
-    book.category,
-    [
-      ...book.comments,
-      {
-        username,
-        comment,
-        timestamp,
-      },
-    ],
+  const comments = [
+    ...book.comments,
+    {
+      username,
+      comment,
+      timestamp,
+    },
   ];
+
   book = {
     item_id: `${book.item_id}_${book.chapter}_${book.numChapters}`,
     title: book.title,
     author: book.author,
-    category: JSON.stringify(categoryComments),
+    category: book.category,
+    comments,
   };
+
   let resp = await deleteBookAtAPI(bookId, books);
   if (resp.toLowerCase().includes('deleted successfully')) {
     resp = await addBookAtAPI(book, books);

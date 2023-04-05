@@ -25,6 +25,7 @@ const Comment = () => {
     dispatch(makeComment({ bookId: book, username, comment }));
     setComment('');
     setUsername('');
+    usernameInput.current.focus();
   };
 
   return (
@@ -65,12 +66,14 @@ const Comment = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Enter your name..."
+            maxLength={15}
           />
           <input
             className={Styles['comment-input']}
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             placeholder="Enter your comment..."
+            maxLength={30}
           />
           <button type="submit">
             <AiOutlineSend />

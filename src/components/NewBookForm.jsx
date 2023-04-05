@@ -18,6 +18,7 @@ const NewBookForm = () => {
       title,
       author,
       category,
+      comments: [],
     }));
     setTitle('');
     setAuthor('');
