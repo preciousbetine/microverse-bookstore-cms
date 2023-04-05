@@ -51,7 +51,7 @@ const Modal = () => {
               value={bookChapter}
               min={0}
               max={numChapters}
-              onChange={(e) => setBookChapter(e.target.value)}
+              onChange={(e) => setBookChapter(e.target.value.replace(/^0+/, ''))}
             />
             <button type="submit">UPDATE</button>
           </form>

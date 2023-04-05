@@ -83,7 +83,7 @@ const editBook = createAsyncThunk(
     try {
       const { books } = thunkAPI.getState().books;
       await deleteBookAtAPI(bookId, books);
-      const { updatedBooks } = thunkAPI.getState().books;
+      const updatedBooks = books.filter((book) => book.item_id !== bookId);
       const resp = await addBookAtAPI(book, updatedBooks);
       if (resp === 'Created') {
         const books = await getBooksFromAPI();
