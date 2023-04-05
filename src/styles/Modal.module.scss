@@ -16,7 +16,39 @@
   background-color: #fff;
   padding: 30px;
   border-radius: 10px;
-  max-width: 600px;
+  min-width: 350px;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    input {
+      border: 1px solid var(--primary-color);
+      padding: 10px;
+      outline: none;
+    }
+
+    button {
+      align-self: flex-end;
+      border: none;
+      outline: none;
+      background: var(--primary-color);
+      color: white;
+      font-size: 15px;
+      padding: 5px 15px;
+      cursor: pointer;
+      transition: 0.5s all;
+
+      &:hover {
+        padding: 5px 20px;
+      }
+    }
+  }
 }
 
 .modal-header {
@@ -24,7 +56,6 @@
   justify-content: space-between;
   align-items: center;
   height: 40px;
-  margin-bottom: 10px;
 
   button {
     height: 100%;

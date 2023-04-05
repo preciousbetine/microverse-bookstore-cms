@@ -27,12 +27,12 @@ export const getBooksFromAPI = async () => {
       title: entry[1][0].title,
       category: entry[1][0].category,
       // progress: current_chapter / num_chapters * 100
-      progress: Math.max((Number(entry[0].split('_')[1]) / Number(entry[0].split('_')[2])) * 100),
+      progress: Math.ceil((Number(entry[0].split('_')[1]) / Number(entry[0].split('_')[2])) * 100),
       chapter: Number(entry[0].split('_')[1]),
+      numChapters: Number(entry[0].split('_')[2]),
     }))
     .sort((a, b) => a.item_id.localeCompare(b.item_id, 'en', { numeric: true }));
 
-  console.log(books);
   return books;
 };
 
@@ -47,7 +47,25 @@ export const addBookAtAPI = async (bookInfo, books) => {
   return resp.data;
 };
 
-export const deleteBookAtAPI = async (bookId) => {
-  const resp = await axios.delete(`${apiBase}/apps/${appId}/books/${bookId}`);
+export const deleteBookAtAPI = async (bookId, books) => {
+  const book = books.find((book) => book.item_id === bookId);
+  const apiBookId = `${bookId}_${book.chapter}_${book.numChapters}`;
+  const resp = await axios.delete(`${apiBase}/apps/${appId}/books/${apiBookId}`);
   return resp.data;
+};
+
+export const updateBookChaterAtAPI = async (bookId, newChapter, books) => {
+  let book = books.find((book) => book.item_id === bookId);
+  book = {
+    item_id: `${book.item_id}_${newChapter}_${book.numChapters}`,
+    title: book.title,
+    author: book.author,
+    category: book.category,
+  };
+  let resp = await deleteBookAtAPI(bookId, books);
+  if (resp.toLowerCase().includes('deleted successfully')) {
+    resp = await addBookAtAPI(book, books);
+    return resp;
+  }
+  return 'Error';
 };

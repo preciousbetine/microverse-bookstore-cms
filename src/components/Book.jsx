@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { removeBook } from '@/redux/books/booksSlice';
-import { showMessage } from '@/redux/modal/modalSlice';
+import { showMessage, updateChapter } from '@/redux/modal/modalSlice';
 import Styles from '@/styles/Book.module.scss';
 
 const Book = ({
@@ -12,6 +12,7 @@ const Book = ({
   category,
   progress,
   chapter,
+  numChapters,
 }) => {
   const dispatch = useDispatch();
   const progressBar = React.createRef();
@@ -22,8 +23,8 @@ const Book = ({
 
   useEffect(() => {
     progressBar.current.style.background = `conic-gradient(
-      #307bbe ${progress * 3.6}deg,
-      #379cf6 ${(progress * 3.6)}deg,
+      #307bbe ${(progress * 3.6) + 2}deg,
+      #379cf6 ${(progress * 3.6) + 2}deg,
       var(--secondary-color)
     )`;
   }, [progress, progressBar]);
@@ -86,10 +87,10 @@ const Book = ({
         </div>
         <div className={Styles['progress-update']}>
           <h3>CURRENT CHAPTER</h3>
-          <p>{chapter}</p>
+          <p>{chapter ? `CHAPTER ${chapter} / ${numChapters}` : 'NOT STARTED'}</p>
           <button
             type="button"
-            onClick={() => dispatch(showMessage('Feature not implemented yet'))}
+            onClick={() => dispatch(updateChapter(bookId))}
           >
             UPDATE&nbsp;PROGRESS
           </button>
@@ -109,6 +110,7 @@ Book.propTypes = {
   category: PropTypes.string.isRequired,
   progress: PropTypes.number.isRequired,
   chapter: PropTypes.number.isRequired,
+  numChapters: PropTypes.number.isRequired,
 };
 
 export default Book;

@@ -5,7 +5,13 @@ import {
   isFulfilled,
   isRejected,
 } from '@reduxjs/toolkit';
-import { addBookAtAPI, deleteBookAtAPI, getBooksFromAPI } from './booksApi';
+import {
+  addBookAtAPI,
+  deleteBookAtAPI,
+  getBooksFromAPI,
+  updateBookChaterAtAPI,
+} from '@/redux/books/booksApi';
+import { hideModal } from '@/redux/modal/modalSlice';
 
 const initialState = {
   books: [],
@@ -46,9 +52,25 @@ const removeBook = createAsyncThunk(
   'books/removeBook',
   async (bookId, thunkAPI) => {
     try {
-      await deleteBookAtAPI(bookId);
-      const books = await getBooksFromAPI();
-      return books;
+      const { books } = thunkAPI.getState().books;
+      await deleteBookAtAPI(bookId, books);
+      const result = await getBooksFromAPI();
+      return result;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.message);
+    }
+  },
+);
+
+const updateBookChapter = createAsyncThunk(
+  'books/updateChapter',
+  async ({ book, bookChapter }, thunkAPI) => {
+    try {
+      const { books } = thunkAPI.getState().books;
+      await updateBookChaterAtAPI(book, bookChapter, books);
+      const result = await getBooksFromAPI();
+      thunkAPI.dispatch(hideModal());
+      return result;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.message);
     }
@@ -67,14 +89,14 @@ const booksSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addMatcher(
-        isPending(addBook, fetchBooks, removeBook),
+        isPending(addBook, fetchBooks, removeBook, updateBookChapter),
         (state) => ({
           ...state,
           loading: true,
         }),
       )
       .addMatcher(
-        isFulfilled(addBook, fetchBooks, removeBook),
+        isFulfilled(addBook, fetchBooks, removeBook, updateBookChapter),
         (state, { payload }) => ({
           ...state,
           books: payload,
@@ -83,7 +105,7 @@ const booksSlice = createSlice({
         }),
       )
       .addMatcher(
-        isRejected(addBook, fetchBooks, removeBook),
+        isRejected(addBook, fetchBooks, removeBook, updateBookChapter),
         (state, { payload }) => ({
           ...state,
           loading: false,
@@ -93,6 +115,8 @@ const booksSlice = createSlice({
   },
 });
 
-export { fetchBooks, addBook, removeBook };
+export {
+  fetchBooks, addBook, removeBook, updateBookChapter,
+};
 export const { clearBooksError } = booksSlice.actions;
 export default booksSlice.reducer;
