@@ -1,9 +1,4 @@
-<a name="readme-top"></a>
-
-<div align="center">
-  <img src="public/images/bookstore.jpg" alt="logo" width="140"  height="auto" />
-  <h1><b>Bookstore CMS</b></h1>
-</div>
+<img src="https://camo.githubusercontent.com/8a4ae3fb98faf74ddf78a6677ceaa6e8872f7f340f569b7c5e1aa9bcc4061d95/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4d6963726f76657273652d626c756576696f6c6574" alt="logo" width="70"  height="auto" />
 
 <!-- TABLE OF CONTENTS -->
 
