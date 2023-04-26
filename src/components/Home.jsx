@@ -14,10 +14,6 @@ const Home = () => {
       title={book.title}
       author={book.author}
       category={book.category}
-      progress={book.progress}
-      chapter={book.chapter}
-      numChapters={book.numChapters}
-      comments={book.comments}
     />
   ));
 
