@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
-import { removeBook, editBook } from '@/redux/books/booksSlice';
-import { updateChapter, comment } from '@/redux/modal/modalSlice';
+import { useDispatch } from 'react-redux';
+import { removeBook } from '@/redux/books/booksSlice';
 import Styles from '@/styles/Book.module.scss';
 
 const Book = ({
@@ -10,87 +9,25 @@ const Book = ({
   title,
   author,
   category,
-  progress,
-  chapter,
-  numChapters,
-  comments,
 }) => {
   const dispatch = useDispatch();
-  const progressBar = React.createRef();
-  const { categories } = useSelector((store) => store.categories);
-
-  const [isEditing, setIsEditing] = useState(false);
-  const [titleEdit, setTitleEdit] = useState(title);
-  const [categoryEdit, setCategoryEdit] = useState(category);
-  const [authorEdit, setAuthorEdit] = useState(author);
-  const [numChaptersEdit, setNumChaptersEdit] = useState(numChapters);
 
   const deleteThisBook = () => {
     dispatch(removeBook(bookId));
   };
 
-  const saveBook = () => {
-    const book = {
-      item_id: `${bookId}_${(chapter > numChaptersEdit) ? numChaptersEdit : chapter}_${numChaptersEdit}`,
-      title: titleEdit,
-      author: authorEdit,
-      category: categoryEdit,
-      comments,
-    };
-    setIsEditing(false);
-    dispatch(editBook({ bookId, book }));
-  };
-
-  useEffect(() => {
-    progressBar.current.style.background = `conic-gradient(
-      #307bbe ${(progress * 3.6) + 2}deg,
-      #379cf6 ${(progress * 3.6) + 2}deg,
-      var(--secondary-color)
-    )`;
-  }, [progress, progressBar]);
-
   const bookControls = (
     <>
       <li>
-        <button
-          type="button"
-          onClick={() => dispatch(comment(bookId))}
-        >
-          Comments
-        </button>
+        <button type="button">Comments</button>
       </li>
       <li>
-        <button
-          type="button"
-          onClick={() => { deleteThisBook(); }}
-        >
+        <button type="button" onClick={() => { deleteThisBook(); }}>
           Remove
         </button>
       </li>
       <li>
-        {
-          !isEditing && (
-            <button
-              type="button"
-              onClick={() => {
-                setIsEditing(true);
-              }}
-            >
-              Edit
-            </button>
-          )
-        }
-        {
-          isEditing && (
-            <button
-              type="button"
-              onClick={saveBook}
-              className={Styles['save-btn']}
-            >
-              Save
-            </button>
-          )
-        }
+        <button type="button">Edit</button>
       </li>
     </>
   );
@@ -100,47 +37,10 @@ const Book = ({
       <div className={Styles['book-description']}>
         <div>
           <div className={Styles.category}>
-            {!isEditing && category}
-            {isEditing && (
-              <select
-                className={Styles['category-select']}
-                value={categoryEdit}
-                onChange={(e) => { setCategoryEdit(e.target.value); }}
-              >
-                {
-                  categories.map((category) => <option key={category}>{category}</option>)
-                }
-              </select>
-            )}
+            {category}
           </div>
-          <>
-            {!isEditing && (
-              <h2 className={Styles['book-title']}>{title}</h2>
-            )}
-            {isEditing && (
-              <input
-                placeholder="Book title"
-                value={titleEdit}
-                onChange={(e) => { setTitleEdit(e.target.value); }}
-                className={Styles['title-input']}
-                required
-              />
-            )}
-          </>
-          <>
-            {!isEditing && (
-              <div className={Styles.author}>{author}</div>
-            )}
-            {isEditing && (
-              <input
-                placeholder="Book author"
-                value={authorEdit}
-                onChange={(e) => { setAuthorEdit(e.target.value); }}
-                className={Styles['author-input']}
-                required
-              />
-            )}
-          </>
+          <h2 className={Styles['book-title']}>{title}</h2>
+          <div className={Styles.author}>{author}</div>
         </div>
         <ul className={Styles['desktop-controls']}>
           {bookControls}
@@ -149,46 +49,23 @@ const Book = ({
       <div className={Styles['reading-progress']}>
         <div className={Styles['percent-complete']}>
           <div
-            ref={progressBar}
             className={Styles['progress-display']}
           />
           <div>
             <p className={Styles['percent-value']}>
-              {progress}
-              %
+              0%
             </p>
             <p>Completed</p>
           </div>
         </div>
         <div className={Styles['progress-update']}>
-          {
-            !isEditing && (
-              <>
-                <h3>CURRENT CHAPTER</h3>
-                <p>{chapter ? `CHAPTER ${chapter} / ${numChapters}` : 'NOT STARTED'}</p>
-                <button
-                  type="button"
-                  onClick={() => dispatch(updateChapter(bookId))}
-                >
-                  UPDATE&nbsp;PROGRESS
-                </button>
-              </>
-            )
-          }
-          {
-            isEditing && (
-              <>
-                <h3>NUMBER OF CHAPTERS</h3>
-                <input
-                  type="number"
-                  className={Styles['chapter-edit']}
-                  min={0}
-                  value={numChaptersEdit}
-                  onChange={(e) => { setNumChaptersEdit(e.target.value); }}
-                />
-              </>
-            )
-          }
+          <h3>CURRENT CHAPTER</h3>
+          <p>NOT STARTED</p>
+          <button
+            type="button"
+          >
+            UPDATE&nbsp;PROGRESS
+          </button>
         </div>
       </div>
       <ul className={Styles['mobile-controls']}>
@@ -203,16 +80,6 @@ Book.propTypes = {
   title: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
-  progress: PropTypes.number.isRequired,
-  chapter: PropTypes.number.isRequired,
-  numChapters: PropTypes.number.isRequired,
-  comments: PropTypes.arrayOf(
-    PropTypes.shape({
-      username: PropTypes.string.isRequired,
-      comment: PropTypes.string.isRequired,
-      timestamp: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
 };
 
 export default Book;

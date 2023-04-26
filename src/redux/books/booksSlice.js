@@ -7,12 +7,9 @@ import {
 } from '@reduxjs/toolkit';
 import {
   addBookAtAPI,
-  commentOnBook,
   deleteBookAtAPI,
   getBooksFromAPI,
-  updateBookChaterAtAPI,
 } from '@/redux/books/booksApi';
-import { hideModal } from '@/redux/modal/modalSlice';
 
 const initialState = {
   books: [],
@@ -63,57 +60,6 @@ const removeBook = createAsyncThunk(
   },
 );
 
-const updateBookChapter = createAsyncThunk(
-  'books/updateChapter',
-  async ({ book, bookChapter }, thunkAPI) => {
-    try {
-      const { books } = thunkAPI.getState().books;
-      await updateBookChaterAtAPI(book, bookChapter, books);
-      const result = await getBooksFromAPI();
-      thunkAPI.dispatch(hideModal());
-      return result;
-    } catch (err) {
-      return thunkAPI.rejectWithValue(err.message);
-    }
-  },
-);
-
-const editBook = createAsyncThunk(
-  'books/editBook',
-  async ({ bookId, book }, thunkAPI) => {
-    try {
-      const { books } = thunkAPI.getState().books;
-      await deleteBookAtAPI(bookId, books);
-      const updatedBooks = books.filter((book) => book.item_id !== bookId);
-      const resp = await addBookAtAPI(book, updatedBooks);
-      if (resp === 'Created') {
-        const books = await getBooksFromAPI();
-        return books;
-      }
-      return thunkAPI.rejectWithValue('Wrong API response received!');
-    } catch (err) {
-      return thunkAPI.rejectWithValue(err.message);
-    }
-  },
-);
-
-const makeComment = createAsyncThunk(
-  'books/comment',
-  async ({ bookId, username, comment }, thunkAPI) => {
-    try {
-      const { books } = thunkAPI.getState().books;
-      const resp = await commentOnBook(bookId, username, comment, books);
-      if (resp === 'Created') {
-        const books = await getBooksFromAPI();
-        return books;
-      }
-      return thunkAPI.rejectWithValue('Wrong API response received!');
-    } catch (err) {
-      return thunkAPI.rejectWithValue(err.message);
-    }
-  },
-);
-
 const booksSlice = createSlice({
   name: 'books',
   initialState,
@@ -126,14 +72,14 @@ const booksSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addMatcher(
-        isPending(addBook, fetchBooks, removeBook, editBook, updateBookChapter, makeComment),
+        isPending(addBook, fetchBooks, removeBook),
         (state) => ({
           ...state,
           loading: true,
         }),
       )
       .addMatcher(
-        isFulfilled(addBook, fetchBooks, removeBook, editBook, updateBookChapter, makeComment),
+        isFulfilled(addBook, fetchBooks, removeBook),
         (state, { payload }) => ({
           ...state,
           books: payload,
@@ -142,7 +88,7 @@ const booksSlice = createSlice({
         }),
       )
       .addMatcher(
-        isRejected(addBook, fetchBooks, removeBook, editBook, updateBookChapter, makeComment),
+        isRejected(addBook, fetchBooks, removeBook),
         (state, { payload }) => ({
           ...state,
           loading: false,
@@ -156,9 +102,6 @@ export {
   fetchBooks,
   addBook,
   removeBook,
-  editBook,
-  updateBookChapter,
-  makeComment,
 };
 export const { clearBooksError } = booksSlice.actions;
 export default booksSlice.reducer;
